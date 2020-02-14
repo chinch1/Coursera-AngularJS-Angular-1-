@@ -1,11 +1,19 @@
 {
 	"folders": [
 		{
+			"name": "Coursera-AngularJS-Angular-1-",
 			"path": "."
 		},
 		{
+			"name": "fullstack-course5-master",
+			"path": "C:\\Users\\nicol\\OneDrive\\Desktop\\cursos\\AngularJS\\fullstack-course5-master"
+		},
+		{
+			"name": "fullstack-course5-master",
 			"path": "C:\\Users\\NICOLA PITETO\\Desktop\\fullstack-course5-master\\fullstack-course5-master"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Coursera-AngularJS-Angular-1-"
+	}
 }
