@@ -1,29 +1,38 @@
 (function () {
-  "use strict";
+  'use strict';
 
-  angular
-    .module("ShoppingListApp", [])
-    .controller("ShoppingListController", ShoppingListController)
-    .provider("ShoppingListService", ShoppingListServiceProvider);
+  angular.module('ShoppingListApp', [])
+    .controller('ShoppingListController', ShoppingListController)
+    .provider('ShoppingList', ShoppingListProvider)
+    .config(Config);
 
-  ShoppingListController.$inject = ["ShoppingListService"];
-  function ShoppingListController(ShoppingListService) {
+  Config.$inject = ['ShoppingListProvider'];
+  function Config(ShoppingListProvider) {
+    ShoppingListProvider.defaults.maxItems = 5;
+  }
+
+  ShoppingListController.$inject = ['ShoppingList'];
+  function ShoppingListController(ShoppingList) {
     var list = this;
 
-    list.items = ShoppingListService.getItems();
+    list.items = ShoppingList.getItems();
+
     list.itemName = "";
     list.itemQuantity = "";
+
     list.addItem = function () {
       try {
-        ShoppingListService.addItem(list.itemName, list.itemQuantity);
+        ShoppingList.addItem(list.itemName, list.itemQuantity);
       } catch (error) {
         list.errorMessage = error.message;
       }
     };
+
     list.removeItem = function (itemIndex) {
-      ShoppingListService.removeItem(itemIndex);
+      ShoppingList.removeItem(itemIndex);
     };
   }
+
 
   // If not specified, maxItems assumed unlimited
   function ShoppingListService(maxItems) {
@@ -33,16 +42,15 @@
     var items = [];
 
     service.addItem = function (itemName, quantity) {
-      if (
-        maxItems === undefined ||
-        (maxItems !== undefined && items.length < maxItems)
-      ) {
+      if ((maxItems === undefined) ||
+        (maxItems !== undefined) && (items.length < maxItems)) {
         var item = {
           name: itemName,
           quantity: quantity
         };
         items.push(item);
-      } else {
+      }
+      else {
         throw new Error("Max items (" + maxItems + ") reached.");
       }
     };
@@ -56,11 +64,12 @@
     };
   }
 
-  function ShoppingListServiceProvider() {
+
+  function ShoppingListProvider() {
     var provider = this;
 
     provider.defaults = {
-      maxItems: 10
+      maxItems: 100
     };
 
     provider.$get = function () {
@@ -69,4 +78,5 @@
       return shoppingList;
     };
   }
+
 })();
